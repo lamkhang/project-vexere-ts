@@ -39,24 +39,6 @@ const mutations = {
 }
 
 const actions = {
-  signUp({ commit }, authUser) {
-    commit("storeAuthRequest");
-    api.post("users/create", authUser)
-    .then(result => {
-      toastr.success("Sign Up success", "", {
-        timeOut: 3000,
-        positionClass: 'toast-top-center',
-        progressBar: true,
-      });
-    })
-    .catch(err => {
-      toastr.error(err, "Oops", {
-        timeOut: 3000,
-        positionClass: 'toast-top-center',
-        progressBar: true,
-      });
-    })
-  },
   logout({ commit }) {
     commit("clearAuthData");
     localStorage.removeItem("token");
@@ -113,6 +95,7 @@ const actions = {
       if(result?.data?.token){
         const decode = jwtDecode(result.data.token);
         if(decode.userType === "admin"){
+          setHeader(result.data.token);
           const payload = {
             token: result.data.token,
             name: decode.fullName
@@ -121,12 +104,12 @@ const actions = {
           localStorage.setItem("token", result.data.token);
           localStorage.setItem("exp", decode.exp);
           dispatch("setLogoutTimer", decode.exp);
+          router.replace("/admin/dashboard");
           toastr.success("Login success", "", {
             timeOut: 3000,
             positionClass: 'toast-top-center',
             progressBar: true,
           });
-          router.replace("/admin/dashboard");
         } else{
           return Promise.reject({
             response: { data: {message: "you do not permission access"}}

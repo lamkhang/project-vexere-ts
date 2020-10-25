@@ -37,12 +37,13 @@ const actions = {
       commit("storeUserFail", err)
     })
   },
-  addUser({ commit, dispatch }, authUser) {
+  addUser({ commit, dispatch }, authUser, bool) {
     commit("storeUserRequest");
+    const message = bool ? "Create User" : "Sign Up"
     api.post("users/create", authUser)
     .then(result => {
       commit("storeUserSuccess" , result);
-      toastr.success("Create user success", "", {
+      toastr.success(`${message}success`, "", {
         timeOut: 3000,
         positionClass: 'toast-top-center',
         progressBar: true,

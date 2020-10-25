@@ -53,7 +53,7 @@ const actions = {
     api.post("stations", station)
     .then(result => {
       commit("storeStationSuccess", result.data);
-      toastr.success("Create station success", "", {
+      toastr.success("Create Station success", "", {
         timeOut: 3000,
         positionClass: 'toast-top-center',
         progressBar: true,
@@ -75,7 +75,7 @@ const actions = {
     api.put(`stations/${station._id}`, station)
     .then(result => {
       commit("storeStationSuccess", result.data);
-      toastr.success("Edit station success", "", {
+      toastr.success("Edit Station success", "", {
         timeOut: 3000,
         positionClass: 'toast-top-center',
         progressBar: true,
@@ -96,7 +96,7 @@ const actions = {
     api.delete(`stations/${stationId}`)
     .then(result => {
       commit("storeStationSuccess", result.data);
-      toastr.error("Delete User successfully", "", {
+      toastr.error("Delete Station successfully", "", {
         timeOut: 3000,
         positionClass: 'toast-top-center',
         progressBar: true,

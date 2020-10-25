@@ -2,12 +2,12 @@
   <section class="myCarousel">
     section
     <img
-      src="https:////static.vexere.com/production/banners/330/leaderboad-newu-ban-phai-di.png"
+      src="https://media.timeout.com/images/105681160/630/472/image.jpg"
       alt
     />
     <div class="myCarousel-banner">
       <div class="myCarousel-banner__content mx-auto">
-        <h2>VeXeRe.com - Hệ thống đặt vé xe khách lớn nhất Việt Nam</h2>
+        <h2>Hệ thống đặt vé xe khách</h2>
         <div class="myCarousel-banner__search">
           <div class="row mx-0">
             <div class="col-sm-4 row-flex">

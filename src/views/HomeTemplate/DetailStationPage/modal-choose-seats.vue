@@ -43,16 +43,18 @@
             <div class="col-sm-5">
               <form @submit.prevent="handleBookedSeat(seatCodes)" ref="formInforUserBooked">
                 <div class="form-group">
-                  <input
-                    type="fullName"
-                    class="form-control"
-                    name="fullName"
-                    v-model="fullName"
-                    ref="fullName"
-                    placeholder="Full Name"
-                    required="required"
-                    @blur="$v.fullName.$touch()"
-                  />
+                  <md-field>
+                    <label>Full Name</label>
+                    <md-input
+                      type="fullName"
+                      class="form-control"
+                      name="fullName"
+                      v-model="fullName"
+                      ref="fullName"
+                      required="required"
+                      @blur="$v.fullName.$touch()"
+                    ></md-input>
+                  </md-field>
                   <span
                     class="text-danger ml-1"
                     v-if="$v.fullName.$dirty && !$v.fullName.required"
@@ -66,15 +68,19 @@
                   </span>
                 </div>
                 <div class="form-group">
-                  <input
-                    type="phone"
-                    class="form-control"
-                    name="phone"
-                    v-model="phone"
-                    placeholder="Phone number"
-                    required="required"
-                    @blur="$v.phone.$touch()"
-                  />
+                  <md-field>
+                    <label>Phone number</label>
+                    <md-input
+                      type="phone"
+                      class="form-control"
+                      name="phone"
+                      v-model="phone"
+                      placeholder
+                      required="required"
+                      @blur="$v.phone.$touch()"
+                    ></md-input>
+                  </md-field>
+
                   <span
                     class="text-danger ml-1"
                     v-if="$v.phone.$dirty && !$v.phone.required"
@@ -85,15 +91,18 @@
                   >(*) phone must be a number</span>
                 </div>
                 <div class="form-group">
-                  <input
-                    type="email"
-                    class="form-control"
-                    name="email"
-                    v-model="email"
-                    placeholder="Email"
-                    required="required"
-                    @blur="$v.email.$touch()"
-                  />
+                  <md-field>
+                    <label>Email</label>
+                    <md-input
+                      type="email"
+                      class="form-control"
+                      name="email"
+                      v-model="email"
+                      required="required"
+                      @blur="$v.email.$touch()"
+                    ></md-input>
+                  </md-field>
+
                   <span
                     class="text-danger ml-1"
                     v-if="$v.email.$dirty && !$v.email.required"
@@ -104,16 +113,17 @@
                   >(*) email is not correct format</span>
                 </div>
                 <div class="form-group">
-                  <textarea
-                    class="w-100"
-                    name="Note"
-                    rows="3"
-                    placeholder="  Note"
-                    style="border: 1px solid #ced4da"
-                    v-model="note"
-                  ></textarea>
+                  <md-field class="pt-0">
+                    <md-textarea
+                      class="form-control"
+                      name="Note"
+                      rows="3"
+                      style="border: 0!important"
+                      v-model="note"
+                      placeholder="Note"
+                    ></md-textarea>
+                  </md-field>
                 </div>
-
                 <div class="form-group text-right">
                   <button type="button" class="btn btn-secondary mr-2" data-dismiss="modal">Close</button>
                   <button
@@ -149,7 +159,7 @@ export default {
       fullName: "",
       phone: "",
       email: "",
-      note:""
+      note: ""
     };
   },
   methods: {
@@ -191,7 +201,7 @@ export default {
                   store.default.dispatch("bookedSeat", ticket);
                   toastr.remove();
                   this.seatCodes = [];
-                   $("#modal-choose-seats").modal("hide");
+                  $("#modal-choose-seats").modal("hide");
                 });
                 $("#closeToastr").click(function() {
                   toastr.remove();
@@ -206,7 +216,6 @@ export default {
           //   phone: this.phone,
           //   email: this.email
           // });
-          
         } else {
           toastr.warning("you must be login", "", {
             timeOut: 3000,
@@ -229,7 +238,7 @@ export default {
         (this.phone = ""),
         (this.email = ""),
         (this.seatCodes = []);
-        this.note = "";
+      this.note = "";
       this.$refs.formInforUserBooked.reset();
     }
   },
@@ -301,6 +310,20 @@ export default {
     margin-top: 40px;
   }
   form {
+    .form-group {
+      .form-control {
+        box-shadow: none !important;
+      }
+      .md-field {
+        margin-bottom: 0;
+      }
+    }
+    .form-control {
+      background: #f2f2f2;
+      &:focus {
+        background: #e2e2e2;
+      }
+    }
     textarea {
       border-radius: 0.25rem;
       &:focus {

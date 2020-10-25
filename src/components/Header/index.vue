@@ -3,7 +3,7 @@
     <nav class="navbar navbar-expand-lg bg-light">
       <router-link class="navbar-brand" to="/">
         <img
-          src="https://storage.googleapis.com/fe-production/icon_vxr_full.svg"
+          src="https://images.prismic.io/station-website-v4/40820ddd-76f7-4c0b-a000-ea69f70d6a4e_e13919735b69e58fd67cc41d982f42cf333c263f_station-logo-color.png?auto=compress,format"
           alt="logo"
           class="img-fluid"
         />
@@ -149,6 +149,12 @@ export default {
           .form-group {
             margin-bottom: 20px;
           }
+          .form-control {
+            background: #f2f2f2;
+            &:hover{
+              background: #e2e2e2;
+            }
+          }
           .form-control,
           .btn {
             min-height: 40px;
@@ -206,9 +212,6 @@ export default {
             &:focus {
               background: #e2e2e2;
             }
-          }
-          .form-control:focus {
-            background: #e2e2e2;
           }
           .btn {
             border-radius: 3px;

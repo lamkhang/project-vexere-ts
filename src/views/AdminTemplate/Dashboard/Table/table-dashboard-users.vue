@@ -71,6 +71,7 @@ export default {
     };
   },
   created() {
+    this.currentPage = 1;
     this.$store.default.dispatch("fetchListUsers");
   },
   methods: {
@@ -78,7 +79,7 @@ export default {
       const store = this.$store;
         toastr.warning(
           "<button type='button' class='btn btn-secondary mr-2' id='closeToastr' >Close</button> <button type='button' class='btn btn-danger' id='dispatchHandleUser'>Delete</button>",
-          "Are you want to delete user?",
+          "Are you want to delete USER?",
           {
             closeButton: true,
             timeOut: 0,

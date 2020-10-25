@@ -30,10 +30,12 @@
             <div class="d-flex">
               <md-button
               class="md-raised"
+              @click="handleEditTrip(trip)"
             >EDIT</md-button>
             <md-button
               class="md-raised md-accent"
-              
+              :disabled="trip.seats.length !== trip.avaiableSeatNumber"
+              @click="handleDeleteTrip(trip)"
             >DELETE</md-button>
             </div>
           </td>
@@ -53,6 +55,8 @@
 
 <script>
 import Loader from "./../../../../components/Loader/index.vue";
+import toastr from "toastr/build/toastr.min.js";
+import $ from "jquery";
 
 export default {
   components: {
@@ -66,9 +70,37 @@ export default {
     }
   },
   created() {
+    this.currentPage = 1;
     this.$store.default.dispatch("fetchListTrips");
   },
   methods: {
+    handleEditTrip(trip) {
+      this.$emit("editTrip", trip)
+    },  
+    handleDeleteTrip(trip) {
+      if(trip.seats.length === trip.avaiableSeatNumber) {
+        const store = this.$store;
+        toastr.warning(
+          "<button type='button' class='btn btn-secondary mr-2' id='closeToastr' >Close</button> <button type='button' class='btn btn-danger' id='dispatchHandleTrip'>Delete</button>",
+          "Are you want to delete TRIP?",
+          {
+            closeButton: true,
+            timeOut: 0,
+            positionClass: "toast-top-center",
+            tapToDismiss: false,
+            onShown: function($event) {
+              $("#dispatchHandleTrip").click(function() {
+                store.default.dispatch("deleteTrip", trip._id);
+                toastr.remove();
+              });
+              $("#closeToastr").click(function() {
+                toastr.remove();
+              });
+            }
+          }
+        );
+      }
+    },
     handlePageClick(page) {
       this.currentPage = page;
     },

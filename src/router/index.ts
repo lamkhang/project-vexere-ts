@@ -42,6 +42,8 @@ const routes: Array<RouteConfig> = [
               const decode = jwtDecode(localStorage.getItem("token"));
               if(decode.userType === "admin") {
                 next()
+              } else {
+                throw new Error();
               }
             } catch (error) {
               localStorage.removeItem("token"); 

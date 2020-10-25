@@ -37,10 +37,11 @@
             <div class="mt-4">
               <TableDashboardUser v-if="typeSidebar === 'users' " @editUser="handleAddEdit" :keySearch="keySearch" />
               <TableDashboardStation v-if="typeSidebar === 'stations' "  @editStation="handleAddEdit" :keySearch="keySearch" />
-              <TableDashboardTrips v-if="typeSidebar === 'trips'" />
+              <TableDashboardTrips v-if="typeSidebar === 'trips'" @editTrip="handleAddEdit" />
 
               <DialogUser :showDialogUser="showDialog" :user="user" v-if="typeSidebar === 'users'" />
-              <DialogStation :showDialogStation="showDialog" :station="station" v-if="typeSidebar === 'stations'"/>
+              <DialogStation :showDialogStation="showDialog" :station="station" v-if="typeSidebar === 'stations'" />
+              <DialogTrip :showDialogTrip="showDialog" :trip="trip" v-if="typeSidebar === 'trips'" />
             </div>
           </div>
         </div>
@@ -52,6 +53,7 @@ import TableDashboardStation from "./Table/table-dashboard-stations.vue";
 import TableDashboardTrips from "./Table/table-dashboard-trips.vue";
 import DialogUser from "./Dialog/dialog_user.vue";
 import DialogStation from "./Dialog/dialog_station.vue";
+import DialogTrip from "./Dialog/dialog_trip.vue";
 import jwtDecode from "jwt-decode";
 
 export default {
@@ -61,7 +63,8 @@ export default {
     TableDashboardStation,
     TableDashboardTrips,
     DialogUser,
-    DialogStation
+    DialogStation,
+    DialogTrip
   },
   created() {
     const decode = jwtDecode(localStorage.getItem("token"));
@@ -72,22 +75,29 @@ export default {
       showDialog: false,
       user: null,
       station: null,
+      trip: null,
       keySearch: "",
       name: ""
     }
   },
   methods: {
-    handleAddEdit(edit) {
+    handleAddEdit(data) {
+      this.showDialog = !this.showDialog;
       if(this.typeSidebar === "users"){
-        this.user = edit;
-        this.showDialog = !this.showDialog;  
+        this.user = data;
       } else if(this.typeSidebar === "stations"){
-        this.station = edit;
-        this.showDialog = !this.showDialog;  
+        this.station = data;
+      } else if(this.typeSidebar === "trips") {
+        this.trip = data
       }
     },
     handleHideSidebar() {
       this.$emit("handleHideSidebar");
+    }
+  },
+  watch: {
+    typeSidebar() {
+      this.keySearch = "";
     }
   }
 }

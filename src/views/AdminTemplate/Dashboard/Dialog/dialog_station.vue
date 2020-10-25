@@ -5,64 +5,72 @@
       <form
         ref="formStation"
         @submit.prevent="handleAddEditStation(formStation)"
-        style="min-width: 550px; padding-left: 22px; padding-right: 22px"
+        style="min-width: 550px; padding-left: 22px; padding-right: 22px; padding-top: 0"
       >
-        <md-field class="form-group">
-          <label>Name</label>
-          <md-input
-            type="text"
-            class="form-control"
-            name="name"
-            required="required"
-            v-model="formStation.name"
-            @blur="$v.formStation.name.$touch()"
-          ></md-input>
-        </md-field>
-        <span
-          class="text-danger ml-1 d-block"
-          v-if="$v.formStation.name.$dirty && !$v.formStation.name.required"
-        >(*) name is not empty</span>
-        <md-field class="form-group">
-          <label>Address</label>
-          <md-input
-            type="text"
-            class="form-control"
-            name="address"
-            required="required"
-            v-model="formStation.address"
-            @blur="$v.formStation.address.$touch()"
-          ></md-input>
-        </md-field>
-        <span
-          class="text-danger ml-1"
-          v-if="$v.formStation.address.$dirty && !$v.formStation.address.required"
-        >(*) Address is not empty</span>
-        <span
-          class="text-danger ml-1"
-          v-if="$v.formStation.address.$dirty && !$v.formStation.address.minLength"
-        >
-          (*) address much be more
-          {{ $v.formStation.address.$params.minLength.min }} character
-        </span>
-        <md-field class="form-group">
-          <label>Province</label>
-          <md-input
-            type="text"
-            class="form-control"
-            name="province"
-            required="required"
-            v-model="formStation.province"
-            @blur="$v.formStation.province.$touch()"
-          ></md-input>
-        </md-field>
-        <span
-          class="text-danger ml-1"
-          v-if="$v.formStation.province.$dirty && !$v.formStation.province.required"
-        >(*) province is not empty</span>
-        <md-field class="form-group">
-          <label>Image</label>
-          <md-input type="text" class="form-control" name="fullName" v-model="formStation.image"></md-input>
-        </md-field>
+        <div class="form-group">
+          <md-field>
+            <label>Name</label>
+            <md-input
+              type="text"
+              class="form-control"
+              name="name"
+              required="required"
+              v-model="formStation.name"
+              @blur="$v.formStation.name.$touch()"
+            ></md-input>
+          </md-field>
+          <span
+            class="text-danger ml-1 d-block"
+            v-if="$v.formStation.name.$dirty && !$v.formStation.name.required"
+          >(*) name is not empty</span>
+        </div>
+        <div class="form-group">
+          <md-field>
+            <label>Address</label>
+            <md-input
+              type="text"
+              class="form-control"
+              name="address"
+              required="required"
+              v-model="formStation.address"
+              @blur="$v.formStation.address.$touch()"
+            ></md-input>
+          </md-field>
+          <span
+            class="text-danger ml-1"
+            v-if="$v.formStation.address.$dirty && !$v.formStation.address.required"
+          >(*) Address is not empty</span>
+          <span
+            class="text-danger ml-1"
+            v-if="$v.formStation.address.$dirty && !$v.formStation.address.minLength"
+          >
+            (*) address much be more
+            {{ $v.formStation.address.$params.minLength.min }} character
+          </span>
+        </div>
+        <div class="form-group">
+          <md-field>
+            <label>Province</label>
+            <md-input
+              type="text"
+              class="form-control"
+              name="province"
+              required="required"
+              v-model="formStation.province"
+              @blur="$v.formStation.province.$touch()"
+            ></md-input>
+          </md-field>
+          <span
+            class="text-danger ml-1"
+            v-if="$v.formStation.province.$dirty && !$v.formStation.province.required"
+          >(*) province is not empty</span>
+        </div>
+        <div class="form-group">
+          <md-field>
+            <label>Image</label>
+            <md-input type="text" class="form-control" name="fullName" v-model="formStation.image"></md-input>
+          </md-field>
+        </div>
         <div class="d-flex justify-content-end" style="margin-top: 20px">
           <md-button class="md-raised" @click="showDialog = false">Close</md-button>
           <md-button
@@ -105,7 +113,7 @@ export default {
           // EDIT
           toastr.warning(
             "<button type='button' class='btn btn-secondary mr-2' id='closeToastr' >Close</button> <button type='button' class='btn btn-success' id='dispatchHandleStation'>Yes</button>",
-            "Are you want to edit station?",
+            "Are you want to edit STATION?",
             {
               closeButton: true,
               timeOut: 0,
@@ -126,7 +134,7 @@ export default {
           // ADD
           toastr.warning(
             "<button type='button' class='btn btn-secondary mr-2' id='closeToastr' >Close</button> <button type='button' class='btn btn-success' id='dispatchHandleStation'>Yes</button>",
-            "Are you want to create station?",
+            "Are you want to create STATION?",
             {
               closeButton: true,
               timeOut: 0,
@@ -147,11 +155,12 @@ export default {
       }
     },
     clearFormStation() {
-      (this.formStation.name = ""),
-        (this.formStation.address = ""),
-        (this.formStation.province = ""),
-        (this.formStation.image = "");
+      this.formStation.name = "",
+      this.formStation.address = "",
+      this.formStation.province = "",
+      this.formStation.image = "";
     }
+    
   },
   validations: {
     formStation: {
@@ -176,7 +185,7 @@ export default {
       if (this.station) {
         this.formStation.name = this.station.name;
         this.formStation.address = this.station.address;
-        this.formStation.province = this.station.address;
+        this.formStation.province = this.station.province;
         this.formStation.image = this.station.image;
       }
     }
@@ -197,6 +206,9 @@ export default {
     margin-bottom: 15px;
     background: #fff;
     padding: 30px;
+    .md-field {
+        margin-bottom: 0;
+      }
     .form-control {
       height: 41px;
       background: #f2f2f2;

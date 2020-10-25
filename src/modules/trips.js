@@ -40,6 +40,72 @@ const actions = {
         progressBar: true,
       });
     })
+  },
+  createTrip({commit, dispatch}, trip) {
+    commit("storeTripRequest");
+    api.post("trips", trip)
+      .then(result => {
+        commit("storeTripSuccess", result.data);
+        toastr.success("Create Trip success", "", {
+          timeOut: 3000,
+          positionClass: 'toast-top-center',
+          progressBar: true,
+        });
+        dispatch("fetchListTrips");
+      })
+      .catch(err => {
+        toastr.error(err, "Oops", {
+          timeOut: 3000,
+          positionClass: 'toast-top-center',
+          progressBar: true,
+        });
+        commit("storeTripFail", err)
+      })
+  },
+  editTrip({commit, dispatch}, trip) {
+    commit("storeTripRequest");
+    api.patch(`trips/${trip._id}`, {
+      price: trip.price,
+      startTime:trip.startTime
+    })
+    .then(result => {
+      commit("storeTripSuccess", result);
+      toastr.success("Edit Trip success", "", {
+        timeOut: 3000,
+        positionClass: 'toast-top-center',
+        progressBar: true,
+      });
+      dispatch("fetchListTrips");
+    })
+    .catch(err => {
+      toastr.error(err, "Oops", {
+        timeOut: 3000,
+        positionClass: 'toast-top-center',
+        progressBar: true,
+      });
+      commit("storeTripFail", err)
+    })
+  },
+  deleteTrip({commit, dispatch}, tripId) {
+    commit("storeTripRequest");
+    api.delete(`trips/${tripId}`)
+    .then(result => {
+      commit("storeTripSuccess", result);
+      toastr.success("Delete Trip success", "", {
+        timeOut: 3000,
+        positionClass: 'toast-top-center',
+        progressBar: true,
+      });
+      dispatch("fetchListTrips");
+    })
+    .catch(err => {
+      toastr.error(err, "Oops", {
+        timeOut: 3000,
+        positionClass: 'toast-top-center',
+        progressBar: true,
+      });
+      commit("storeTripFail", err)
+    })
   }
 }
 

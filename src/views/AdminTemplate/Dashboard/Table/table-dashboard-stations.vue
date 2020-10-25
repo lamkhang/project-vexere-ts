@@ -68,6 +68,7 @@ export default {
     }
   },
   created() {
+    this.currentPage = 1;
     this.$store.default.dispatch('fetchListStations');
   },
   methods: {

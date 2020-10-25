@@ -4,18 +4,18 @@
       <div class="col-sm-4 px-0">
         <h4>Fill infor ticket</h4>
         <form @submit.prevent="handleGetInforTicket">
-          <div class="form-group mb-4">
-            <label for="idTicket"></label>
-            <input
-              type="text"
-              class="form-control"
-              name="idTicket"
-              id="idTicket"
-              aria-describedby="helpId"
-              placeholder="ID Ticket"
-              v-model="ticketId"
-              @blur="$v.ticketId.$touch()"
-            />
+          <div class="form-group">
+            <md-field>
+              <label>ID TICKET</label>
+              <md-input
+                type="text"
+                name="idTicket"
+                class="form-control"
+                v-model="ticketId"
+                style="box-shadow: none"
+                @blur="$v.ticketId.$touch()"
+              ></md-input>
+            </md-field>
             <span
               class="text-danger ml-1"
               v-if="$v.ticketId.$dirty && !$v.ticketId.required"
@@ -54,9 +54,7 @@
           </P>
           <P>
             <span class="ticketKey">SEAT:</span>
-            <span v-for="seat of ticketInfo.seats" :key="seat._id">
-              {{seat.code}}
-            </span>
+            <span v-for="seat of ticketInfo.seats" :key="seat._id">{{seat.code}}</span>
           </P>
           <p>
             <span class="ticketKey">NAME CLIENT:</span>
@@ -74,7 +72,11 @@
             <span class="ticketKey">NOTE:</span>
             <span>{{ticketInfo.noteUserGo}}</span>
           </p>
-          <md-button class="md-raised md-accent mx-0" @click="handleDeleteticket()" :disabled="!ticketInfo">Accent</md-button>
+          <md-button
+            class="md-raised md-accent mx-0"
+            @click="handleDeleteticket()"
+            :disabled="!ticketInfo"
+          >Delete</md-button>
         </div>
       </div>
     </div>
@@ -99,26 +101,21 @@ export default {
   methods: {
     handleGetInforTicket() {
       if (!localStorage.getItem("token")) {
-        toastr.warning(
-          "",
-          "You need to login?",
-          {
-            closeButton: true,
-            timeOut: 3000,
-            positionClass: "toast-top-center",
-          }
-        );
-      }
-      else if (this.ticketId) {
+        toastr.warning("", "You need to login?", {
+          closeButton: true,
+          timeOut: 3000,
+          positionClass: "toast-top-center"
+        });
+      } else if (this.ticketId) {
         this.$store.default.dispatch("fetTicketById", this.ticketId);
       }
     },
     handleDeleteticket() {
-      if(localStorage.getItem("token")) {
+      if (localStorage.getItem("token")) {
         const decode = jwtDecode(localStorage.getItem("token"));
         const store = this.$store;
         const ticketInfo = this.ticketInfo;
-        if(this.ticketInfo.userId === decode._id) {
+        if (this.ticketInfo.userId === decode._id) {
           toastr.warning(
             "<button type='button' class='btn btn-secondary mr-2' id='closeToastr' >Close</button> <button type='button' class='btn btn-danger' id='dispatchBookedSeats'>Delete</button>",
             "Are you want to delete seat?",
@@ -139,26 +136,18 @@ export default {
             }
           );
         } else {
-          toastr.warning(
-          "",
-          "You need to use account booked to login?",
-          {
+          toastr.warning("", "You need to use account booked to login?", {
             closeButton: true,
             timeOut: 3000,
-            positionClass: "toast-top-center",
-          }
-        );
+            positionClass: "toast-top-center"
+          });
         }
       } else {
-        toastr.warning(
-          "",
-          "You need to login?",
-          {
-            closeButton: true,
-            timeOut: 3000,
-            positionClass: "toast-top-center",
-          }
-        );
+        toastr.warning("", "You need to login?", {
+          closeButton: true,
+          timeOut: 3000,
+          positionClass: "toast-top-center"
+        });
       }
     }
   },
@@ -167,7 +156,11 @@ export default {
       return this.$store.default.state.tickets.loading;
     },
     ticketInfo() {
-      return this.$store.default.state.tickets.data;
+      if(this.ticketId) {
+        return this.$store.default.state.tickets.data;
+      } else {
+        return null;
+      }      
     }
   },
   validations: {
@@ -178,10 +171,19 @@ export default {
 };
 </script>
 
-<style>
-.ticketKey{
+<style lang="scss">
+.md-field {
+  margin-bottom: 0;
+}
+.ticketKey {
   font-weight: bold;
   width: 150px;
   display: inline-block;
+}
+.form-control {
+  background: #f2f2f2;
+  &:focus {
+    background: #e2e2e2;
+  }
 }
 </style>

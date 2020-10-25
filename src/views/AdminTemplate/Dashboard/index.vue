@@ -10,7 +10,6 @@
     </div>
   </section>
 </template>
-:class="{'active': typeSidebar === 'users'}"
 <script>
 import AdminDashboardSidebar from "./admin-dashboard-sidebar.vue";
 import AdminDashboardContent from "./admin-dashboard-content.vue";

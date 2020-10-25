@@ -5,20 +5,22 @@
       <form
         ref="formUser"
         @submit.prevent="handleAddEditUser($event)"
-        style="min-width: 550px; padding-left: 22px; padding-right: 22px"
+        style="min-width: 550px; padding-left: 22px; padding-right: 22px; padding-top: 0"
       >
         <div class="form-group">
-          <input
-            type="email"
-            class="form-control"
-            name="email"
-            placeholder="Email"
-            required="required"
-            v-model="email"
-            @blur="$v.email.$touch()"
-            :disabled="user"
-            :style="{'opacity': user ? 0.6 : 1}"
-          />
+          <md-field>
+            <label>Email</label>
+            <md-input
+              type="email"
+              class="form-control"
+              name="email"
+              required="required"
+              v-model="email"
+              @blur="$v.email.$touch()"
+              :disabled="!(user === null)"
+              :style="{'opacity': user ? 0.6 : 1}"
+            />
+          </md-field>
           <span
             class="text-danger ml-1"
             v-if="$v.email.$dirty && !$v.email.required"
@@ -29,17 +31,19 @@
           >(*) email is not correct format</span>
         </div>
         <div class="form-group">
-          <input
-            type="password"
-            class="form-control"
-            name="password"
-            placeholder="Password"
-            required="required"
-            v-model="password"
-            :disabled="user"
-            :style="{'opacity': user ? 0.6 : 1}"
-            @blur="$v.password.$touch()"
-          />
+          <md-field>
+            <label>Password</label>
+            <md-input
+              type="password"
+              class="form-control"
+              name="password"
+              required="required"
+              v-model="password"
+              :disabled="!(user === null)"
+              :style="{'opacity': user ? 0.6 : 1}"
+              @blur="$v.password.$touch()"
+            />
+          </md-field>
           <span
             class="text-danger ml-1"
             v-if="$v.password.$dirty && !$v.password.required"
@@ -50,17 +54,19 @@
           </span>
         </div>
         <div class="form-group">
-          <input
-            type="password"
-            class="form-control"
-            name="confirm_password"
-            placeholder="Confirm Password"
-            required="required"
-            v-model="confirmPassword"
-            :disabled="user"
-            :style="{'opacity': user ? 0.6 : 1}"
-            @blur="$v.confirmPassword.$touch()"
-          />
+          <md-field>
+            <label>Confirm Password</label>
+            <md-input
+              type="password"
+              class="form-control"
+              name="confirm_password"
+              required="required"
+              v-model="confirmPassword"
+              :disabled="!(user === null)"
+              :style="{'opacity': user ? 0.6 : 1}"
+              @blur="$v.confirmPassword.$touch()"
+            />
+          </md-field>
           <span
             class="text-danger ml-1"
             v-if="$v.confirmPassword.$dirty && !$v.confirmPassword.required"
@@ -85,15 +91,17 @@
           >password must match</span>
         </div>
         <div class="form-group">
-          <input
-            type="text"
-            class="form-control"
-            name="fullName"
-            placeholder="Full Name"
-            required="required"
-            v-model="fullName"
-            @blur="$v.fullName.$touch()"
-          />
+          <md-field>
+            <label>Full Name</label>
+            <md-input
+              type="text"
+              class="form-control"
+              name="fullName"
+              required="required"
+              v-model="fullName"
+              @blur="$v.fullName.$touch()"
+            />
+          </md-field>
           <span
             class="text-danger ml-1"
             v-if="$v.fullName.$dirty && !$v.fullName.required"
@@ -109,10 +117,14 @@
             {{ $v.fullName.$params.maxLength.max }} length
           </span>
         </div>
+
         <div class="d-flex justify-content-end">
           <md-button class="md-raised" @click="showDialog = false">Close</md-button>
-          <md-button class="md-raised md-primary" type="submit" :disabled="$v.$invalid">{{`${user ? 'EDIT' : 'ADD'} USER` }}</md-button>
-          <!-- <button type="submit" class="btn btn-primary btn-lg w-100" :disabled="$v.$invalid">Sign Up</button> -->
+          <md-button
+            class="md-raised md-primary"
+            type="submit"
+            :disabled="$v.$invalid"
+          >{{`${user ? 'EDIT' : 'ADD'} USER` }}</md-button>
         </div>
       </form>
     </div>
@@ -135,20 +147,20 @@ export default {
       email: "",
       password: "",
       confirmPassword: "",
-      fullName: "",
+      fullName: ""
     };
   },
-  
+
   methods: {
-    handleAddEditUser(e){
-      if(!this.$v.$invalid) {
+    handleAddEditUser(e) {
+      if (!this.$v.$invalid) {
         const store = this.$store;
-        const user = {...this.user};
-        if(Object.keys(user).length > 0) {
+        const user = { ...this.user };
+        if (Object.keys(user).length > 0) {
           user.fullName = this.fullName;
           toastr.warning(
             "<button type='button' class='btn btn-secondary mr-2' id='closeToastr' >Close</button> <button type='button' class='btn btn-success' id='dispatchHandleUser'>Yes</button>",
-            "Are you want to edit user?",
+            "Are you want to edit USER?",
             {
               closeButton: true,
               timeOut: 0,
@@ -165,18 +177,17 @@ export default {
               }
             }
           );
-        }
-        else{
+        } else {
           // ADD
           const authUser = {
-          email: this.email,
-          password: this.password,
-          password2 : this.confirmPassword,
-          fullName: this.fullName
-        }
-        toastr.warning(
+            email: this.email,
+            password: this.password,
+            password2: this.confirmPassword,
+            fullName: this.fullName
+          };
+          toastr.warning(
             "<button type='button' class='btn btn-secondary mr-2' id='closeToastr' >Close</button> <button type='button' class='btn btn-success' id='dispatchHandleUser'>Yes</button>",
-            "Are you want to create user?",
+            "Are you want to create USER?",
             {
               closeButton: true,
               timeOut: 0,
@@ -184,7 +195,7 @@ export default {
               tapToDismiss: false,
               onShown: function($event) {
                 $("#dispatchHandleUser").click(function() {
-                  store.default.dispatch("addUser", authUser);
+                  store.default.dispatch("addUser", authUser, true);
                   toastr.remove();
                 });
                 $("#closeToastr").click(function() {
@@ -194,14 +205,13 @@ export default {
             }
           );
         }
-        
       }
     },
     clearFormUser() {
-      this.email = "",
-      this.password = "",
-      this.confirmPassword = "",
-      this.fullName = "" 
+      (this.email = ""),
+      (this.password = ""),
+      (this.confirmPassword = ""),
+      (this.fullName = "");
     }
   },
   validations: {
@@ -229,13 +239,12 @@ export default {
       this.clearFormUser();
     },
     user() {
-      if(this.user) {
+      if (this.user) {
         this.email = this.user.email;
         this.password = "xxxxxx";
         this.confirmPassword = "xxxxxx";
         this.fullName = this.user.fullName;
       }
-      
     }
   }
 };
@@ -251,6 +260,9 @@ export default {
     margin-bottom: 15px;
     background: #fff;
     padding: 30px;
+    .md-field {
+        margin-bottom: 0;
+      }
     .form-control {
       height: 41px;
       background: #f2f2f2;
